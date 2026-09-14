@@ -1,0 +1,24 @@
+name: Build macOS App
+
+on: [push]
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        pip install customtkinter pandas openpyxl pyinstaller
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --noconsole --onefile "Зарплата Venska easy body.py"
+    - name: Upload Executable
+      uses: actions/upload-artifact@v3
+      with:
+        name: SalaryApp-Mac
+        path: dist/
